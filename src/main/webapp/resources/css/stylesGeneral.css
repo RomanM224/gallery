@@ -1,0 +1,9 @@
+@charset "ISO-8859-1";
+.bg-image-galery {
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.navBar{
+	font-size:20px;
+}
