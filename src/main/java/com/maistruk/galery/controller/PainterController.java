@@ -6,12 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.maistruk.galery.exception.PainterException;
+import com.maistruk.galery.exception.PaintingException;
 import com.maistruk.galery.model.Painter;
+import com.maistruk.galery.model.dto.PainterDto;
 import com.maistruk.galery.service.PainterService;
 
 @Controller
@@ -20,20 +23,24 @@ public class PainterController {
 
     @Autowired
     private PainterService painterService;
-    
+
     @GetMapping("/create")
     public ModelAndView create() {
         return new ModelAndView("galery/painter/create");
     }
-    
+
     @PostMapping("/create")
-    public ModelAndView create(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("painterInfo") String info) {
-        Painter painter = new Painter(1, firstName, lastName, info);
-        painterService.create(painter);
-        ModelAndView modelAndView = new ModelAndView("galery/info");
-        return modelAndView.addObject("info", "Painter created");
+    public ModelAndView create(@ModelAttribute PainterDto painterDto) {
+        try {
+            painterService.create(painterDto);
+            ModelAndView modelAndView = new ModelAndView("galery/info");
+            return modelAndView.addObject("info", "Painter created");
+        } catch (PainterException e) {
+            ModelAndView modelAndView = new ModelAndView("galery/painter/create");
+            return modelAndView.addObject("info", e.getMessage());
+        }
     }
-    
+
     @GetMapping("/update")
     public ModelAndView update() {
         List<Painter> painters = painterService.getAll();
@@ -41,41 +48,54 @@ public class PainterController {
         modelAndView.addObject("painters", painters);
         return modelAndView;
     }
-    
+
     @PostMapping("/update")
-    public ModelAndView update(@RequestParam("id") Integer id, @RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("painterInfo") String info) {
-        Painter painter = new Painter(id, firstName, lastName, info);
-        painterService.update(painter);
-        ModelAndView modelAndView = new ModelAndView("galery/info");
-        return modelAndView.addObject("info", "Painter created");
+    public ModelAndView update(@ModelAttribute PainterDto painterDto) {
+        try {
+            painterService.update(painterDto);
+            ModelAndView modelAndView = new ModelAndView("galery/info");
+            return modelAndView.addObject("info", "Painter created");
+        } catch (PainterException e) {
+            ModelAndView modelAndView = new ModelAndView("galery/painter/update");
+            List<Painter> painters = painterService.getAll();
+            modelAndView.addObject("painters", painters);
+            return modelAndView.addObject("info", e.getMessage());
+        }
     }
-    
+
     @GetMapping("/showAll")
     public ModelAndView showAll() {
         ModelAndView modelAndView = new ModelAndView("galery/painter/showAll");
         List<Painter> painters = painterService.getAll();
         modelAndView.addObject("painters", painters);
-      //  modelAndView.addObject("students", Collections.emptyList());
         return modelAndView;
     }
-    
-    @GetMapping("/getById")
+
+    @GetMapping("/showById")
     public ModelAndView getById() {
         ModelAndView modelAndView = new ModelAndView("galery/painter/showById");
         List<Painter> painters = painterService.getAll();
         modelAndView.addObject("painters", painters);
         return modelAndView;
     }
-    
-    @PostMapping("/getById")
-    public ModelAndView getById(@RequestParam("id") Integer id) {
+
+    @PostMapping("/showById")
+    public ModelAndView getById(@ModelAttribute PainterDto painterDto) {
         List<Painter> painters = new ArrayList<>();
-        Painter painter = painterService.getById(id);
-        painters.add(painter);
-        ModelAndView modelAndView = new ModelAndView("galery/painter/showAll");
-        return modelAndView.addObject("painters", painters);
+        try {
+            Painter painter = painterService.getById(painterDto.getId());
+            painters.add(painter);
+            ModelAndView modelAndView = new ModelAndView("galery/painter/showAll");
+            return modelAndView.addObject("painters", painters);
+        } catch (PainterException e) {
+            ModelAndView modelAndView = new ModelAndView("galery/painter/showById");
+            painters = painterService.getAll();
+            modelAndView.addObject("painters", painters);
+            return modelAndView.addObject("info", e.getMessage());
+        }
+
     }
-    
+
     @GetMapping("/delete")
     public ModelAndView delete() {
         ModelAndView modelAndView = new ModelAndView("galery/painter/delete");
@@ -83,10 +103,18 @@ public class PainterController {
         modelAndView.addObject("painters", painters);
         return modelAndView;
     }
-    
+
     @PostMapping("/delete")
-    public ModelAndView delete(@RequestParam("id") Integer id) {
-        painterService.delete(id);
-        ModelAndView modelAndView = new ModelAndView("galery/info");
-        return modelAndView.addObject("info", "Painter deleted");    }
+    public ModelAndView delete(@ModelAttribute PainterDto painterDto) {
+        try {
+            painterService.delete(painterDto.getId());
+            ModelAndView modelAndView = new ModelAndView("galery/info");
+            return modelAndView.addObject("info", "Painter deleted");
+        } catch (PaintingException | PainterException e) {
+            ModelAndView modelAndView = new ModelAndView("galery/painter/delete");
+            List<Painter> painters = painterService.getAll();
+            modelAndView.addObject("painters", painters);
+            return modelAndView.addObject("info", e.getMessage());
+        }
+    }
 }

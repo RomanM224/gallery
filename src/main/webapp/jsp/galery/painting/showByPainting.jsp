@@ -23,19 +23,20 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   <% 
   List<Painting> paintings = (List<Painting>) request.getAttribute("paintings");
+  String info = (String) request.getAttribute("info");
   %>
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
   	
   	<div class="container m-2">
-		<form  action="../painting/showByName" method="post">
+		<form  action="../painting/showPainting" method="post">
 		
 			<div class="form-group col-sm-5 row m-5">
 				<label for="painting" class="col-sm-4 col-form-label mt-3">Select Painting: </label>
 				<div class="col-sm-8 mt-3" >
-				<select class="form-control" id="painting" name="paintingName">
+				<select class="form-control <%if(info != null && info.equals("Painting not exist")){out.print("is-invalid");} %>" id="painting" name="paintingName">
 				<%for(Painting painting : paintings) { %>
 					<option value=<%out.print("\"" + painting.getName() + "\""); %>><%out.print(painting.getName()); %></option>
 				<%} %>
@@ -44,12 +45,13 @@
 				<input class="btn btn-primary  mt-3 ml-2 px-4 py-2" type="submit" value="Show" />
 			</div>
 		</form>
+		<%
+		if(info != null){
+		%>
+		<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
+		<%} %>
 	</div>
-	<%String info = (String) request.getAttribute("info");
-	if(info != null){
-	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
-	<%} %>
+	
 
   </body>
 </html>

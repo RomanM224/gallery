@@ -19,29 +19,31 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
-  
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
+  <%
+  String info = (String) request.getAttribute("info");
+  %>
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
   	
   	<div class="container m-5">
 		<form class="form-group" action="../painter/create" method="post">
 			<label for="firstName">Input Painter first name: </label> 
-			<input class="form-control col-4" id="firstName" type="text" name="firstName" />
+			<input class="form-control col-4 <%if(info != null && info.equals("First Name is invalid")){out.print("is-invalid");} %>" id="firstName" type="text" name="firstName" />
 			
 			<label for="lastName">Input Painter last name: </label> 
-			<input class="form-control col-4" id="lastName" type="text" name="lastName" />
+			<input class="form-control col-4 <%if(info != null && info.equals("Last Name is invalid")){out.print("is-invalid");} %>" id="lastName" type="text" name="lastName" />
 			
 			<label for="exampleFormControlTextarea1">Painter Info</label>
-    		<textarea class="form-control col-4" id="exampleFormControlTextarea1" name="painterInfo" rows="4"></textarea>
+    		<textarea class="form-control col-4 <%if(info != null && info.equals("Info is invalid")){out.print("is-invalid");} %>" id="exampleFormControlTextarea1" name="painterInfo" rows="4"></textarea>
 			
 			<input class="btn btn-primary mt-2" type="submit" value="Create" />
 		</form>
-	</div>
-	<%String info = (String) request.getAttribute("info");
+	<%
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
 
   </body>
 </html>

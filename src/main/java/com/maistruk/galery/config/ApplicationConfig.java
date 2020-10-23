@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.maistruk.galery.controller.FileController;
 import com.maistruk.galery.controller.GaleryController;
 import com.maistruk.galery.controller.PainterController;
 import com.maistruk.galery.controller.PaintingController;
@@ -22,6 +21,8 @@ import com.maistruk.galery.dao.impl.PainterDaoImpl;
 import com.maistruk.galery.dao.impl.PaintingDaoImpl;
 import com.maistruk.galery.dao.impl.rowMapper.PainterRowMapper;
 import com.maistruk.galery.dao.impl.rowMapper.PaintingRowMapper;
+import com.maistruk.galery.mapper.PainterMapper;
+import com.maistruk.galery.mapper.PaintingMapper;
 import com.maistruk.galery.service.PainterService;
 import com.maistruk.galery.service.PaintingService;
 
@@ -115,7 +116,12 @@ public class ApplicationConfig {
     }
     
     @Bean
-    public FileController fileController() {
-        return new FileController();
+    public PaintingMapper paintingMapper() {
+        return new PaintingMapper();
+    }
+    
+    @Bean  
+    public PainterMapper painterMapper() {
+        return new PainterMapper();
     }
 }

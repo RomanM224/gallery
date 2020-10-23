@@ -35,8 +35,8 @@
 	        <a class="dropdown-item" href="${update}">Update</a>
 	      	<spring:url value="/painter/showAll" var="showAll" htmlEscape="true"/>
 	        <a class="dropdown-item" href="${showAll}">Show All</a>
-	      	<spring:url value="/painter/getById" var="getById" htmlEscape="true"/>
-	        <a class="dropdown-item" href="${getById}">Show Painter Info</a>
+	      	<spring:url value="/painter/showById" var="showById" htmlEscape="true"/>
+	        <a class="dropdown-item" href="${showById}">Show Painter Info</a>
 	      	<spring:url value="/painter/delete" var="delete" htmlEscape="true"/>
 	        <a class="dropdown-item" href="${delete}">Delete</a>
         </div>
@@ -58,8 +58,8 @@
     	<div class="dropdown-menu">
 	      	<spring:url value="/painting/showAll" var="showAll" htmlEscape="true"/>
 	        <a class="dropdown-item" href="${showAll}">Show All</a>
-	      	<spring:url value="/painting/showByName" var="showByName" htmlEscape="true"/>
-	        <a class="dropdown-item" href="${showByName}">Show Painting</a>
+	      	<spring:url value="/painting/showPainting" var="showPainting" htmlEscape="true"/>
+	        <a class="dropdown-item" href="${showPainting}">Show Painting</a>
 	        <spring:url value="/painting/showByPainter" var="showByPainter" htmlEscape="true"/>
 	        <a class="dropdown-item" href="${showByPainter}">Show By Painter</a>
 	        <spring:url value="/painting/showByStyle" var="showByStyle" htmlEscape="true"/>

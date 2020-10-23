@@ -22,7 +22,7 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   <% 
   List<Style> styles = (List<Style>) request.getAttribute("styles");
   %>
@@ -44,12 +44,12 @@
 			<input class="btn btn-primary mt-3 ml-2 px-4 py-2" type="submit" value="Show" />
 		</div>
 		</form>
-	</div>
 	<%String info = (String) request.getAttribute("info");
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
 
   </body>
 </html>

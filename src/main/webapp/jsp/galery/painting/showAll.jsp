@@ -22,19 +22,23 @@
     <script src="${jquery}" type="text/javascript"></script>
 </head>
 <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
 
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
 <%
 	List<Painting> paintings = (List<Painting>) request.getAttribute("paintings");
 	Map<Integer, String> painterNames = (Map<Integer,String>) request.getAttribute("painterNames");
+	//Painting painting = paintings.get(0);
 %>
-	<div class="row row-cols-1 row-cols-md-2 ml-2">
+
+
+
+ 	<div class="row row-cols-1 row-cols-md-2 ml-2">
 	<%for(Painting painting : paintings){ %>
 		<div class="col mb-4">
-			<div class="card my-3" style="width: 40rem;">
+			<div class="card my-3 myCard" style="width: 40rem;">
 			<img alt="img" class="card-img-top" src="data:image/jpeg;base64,<%out.println(painting.getImageBase64Encoded()); %>"/>
-				<div class="card-body">
+				<div class="card-body card-bg-color">
 					<p class="card-text"><b>Name: </b><%out.print(painting.getName()); %></p>
 				    <p class="card-text"><b>Painter: </b><%out.print(painterNames.get(painting.getId())); %></p>
 				    <p class="card-text"><b>Style: </b><%out.print(painting.getStyle().getStyle()); %></p>
@@ -43,6 +47,21 @@
 			</div>
 		</div>
 	<%} %>
-	</div>
+	</div> 
+	
+	<%-- <div class="container m-2">
+		<div class="col-5 myCard">
+			<div>
+			<img alt="img" src="data:image/jpeg;base64,<%out.println(painting.getImageBase64Encoded()); %>"/>
+			</div>
+			<div >
+					<p><b>Name: </b><%out.print(painting.getName()); %></p>
+				    <p><b>Painter: </b><%out.print(painterNames.get(painting.getId())); %></p>
+				    <p><b>Style: </b><%out.print(painting.getStyle().getStyle()); %></p>
+				    <p><b>Year: </b><%out.print(painting.getYear()); %></p>
+				</div>
+		</div>
+	</div> --%>
+	
 </body>
 </html>

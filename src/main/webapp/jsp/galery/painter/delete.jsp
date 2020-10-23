@@ -22,28 +22,28 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
   	<%
   	List<Painter> painters = (List<Painter>) request.getAttribute("painters");
+  	String info = (String) request.getAttribute("info");
   	%>
   	<div class="container m-5">
 		<form class="form-group" action="../painter/delete" method="post">
-			<select class="form-control col-3" name="id">
+			<select class="form-control col-3 <%if(info != null && info.equals("Painter not exist")){out.print("is-invalid");} %>" name="id">
 			<%for(Painter painter : painters) { %>
 				<option value=<%out.print("\"" + painter.getId() + "\""); %>><%out.print(painter.getFullName()); %></option>
 			<%} %>
 			</select> 
 			<input class="btn btn-primary mt-2" type="submit" value="Delete Painter" />
 		</form>
-	</div>
-	
-	<%String info = (String) request.getAttribute("info");
+	<%
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
 
   </body>
 </html>

@@ -23,10 +23,11 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   <% 
   List<Painter> painters = (List<Painter>) request.getAttribute("painters");
   List<Style> styles = (List<Style>) request.getAttribute("styles");
+  String info = (String) request.getAttribute("info");
   %>
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
   	
@@ -36,7 +37,7 @@
 			
 			<label for="name" class="col-sm-4 col-form-label mt-3"><b>Input Painting name: </b></label> 
 			<div class="col-sm-8 mt-3">
-				<input class="form-control" id="name" type="text" name="name" />
+				<input class="form-control <%if(info != null && info.equals("Painting Name is invalid")){out.print("is-invalid");} %>" id="name" type="text" name="name" />
 			</div>
 			
 			<label for="painting" class="col-sm-4 col-form-label mt-3"><b>Select Style: </b></label> 
@@ -50,17 +51,17 @@
 			
 			<label for="year" class="col-sm-4 col-form-label mt-3"><b>Input Painting year: </b></label> 
 			<div class="col-sm-8 mt-3">
-			<input class="form-control" id="year" type="number" name="year" />
+			<input class="form-control  <%if(info != null && info.equals("Year is invalid")){out.print("is-invalid");} %>" id="year" type="number" name="year" />
 			</div>
 			
 			<label for="file" class="col-sm-4 col-form-label mt-3"><b>Chose Painting: </b></label> 
 			<div class="col-sm-8 mt-3">
-			<input type="file"  name="file" class="form-control" id="file" required>
+			<input type="file"  name="image" class="form-control" id="image" required>
 			</div>
 			
 			<label for="painter" class="col-sm-4 col-form-label mt-3"><b>Select Painter: </b></label> 
 			<div class="col-sm-8 mt-3">
-			<select class="form-control" id="painter"  name="painterId">
+			<select class="form-control <%if(info != null && info.equals("Painter not exist")){out.print("is-invalid");} %>" id="painter"  name="painterId">
 			<%for(Painter painter : painters) { %>
 				<option value=<%out.print("\"" + painter.getId() + "\""); %>><%out.print(painter.getFullName()); %></option>
 			<%} %>
@@ -69,12 +70,12 @@
 			<input class="btn btn-primary mt-5 px-5 py-3" type="submit" value="Create Painter" />
 			</div>
 		</form>
-	</div>
-	<%String info = (String) request.getAttribute("info");
+	<%
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
 
   </body>
 </html>

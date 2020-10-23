@@ -22,7 +22,7 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
 
@@ -30,7 +30,7 @@
 	List<Painter> painters = (List<Painter>) request.getAttribute("painters");
 	%>
 	
-	<div class="container">
+	<div class="container bg-light mt-5">
 		<h3>Painters:</h3>
 		<table class="table" id="each">
 			<thead class="thead-dark">

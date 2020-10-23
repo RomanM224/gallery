@@ -21,36 +21,38 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
-  
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
+  <%
+  String info = (String) request.getAttribute("info");
+  %>
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
 	<%
   	List<Painter> painters = (List<Painter>) request.getAttribute("painters");
   	%>
 	<div class="container m-5">
 		<form class="form-group" action="../painter/update" method="post">
-			<select class="form-control col-3" name="id">
+			<select class="form-control col-3  <%if(info != null && info.equals("Painter not exist")){out.print("is-invalid");} %>" name="id">
 			<%for(Painter painter : painters) { %>
 				<option value=<%out.print("\"" + painter.getId() + "\""); %>><%out.print(painter.getFullName()); %></option>
 			<%} %>
 			</select> 
 			<label for="id">Input painter first name: </label> 
-			<input class="form-control col-3" id="firstName" type="text" name="firstName" />
+			<input class="form-control col-3  <%if(info != null && info.equals("First Name is invalid")){out.print("is-invalid");} %>" id="firstName" type="text" name="firstName" />
 			
 			<label for="lastName">Input painter last name: </label> 
-			<input class="form-control col-3" id="lastName" type="text" name="lastName" />
+			<input class="form-control col-3 <%if(info != null && info.equals("Last Name is invalid")){out.print("is-invalid");} %>" id="lastName" type="text" name="lastName" />
 			
 			<label for="exampleFormControlTextarea1">Painter Info</label>
-    		<textarea class="form-control col-4" id="exampleFormControlTextarea1" name="painterInfo" rows="4"></textarea>
+    		<textarea class="form-control col-4 <%if(info != null && info.equals("Info is invalid")){out.print("is-invalid");} %>" id="exampleFormControlTextarea1" name="painterInfo" rows="4"></textarea>
 			
 			<input class="btn btn-primary mt-2" type="submit" value="Update" />
 		</form>
-	</div>
-	
-	<%String info = (String) request.getAttribute("info");
+	<%
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
+
   </body>
 </html>

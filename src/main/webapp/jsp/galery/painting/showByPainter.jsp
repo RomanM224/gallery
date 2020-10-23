@@ -23,9 +23,10 @@
     
   </head>
  <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   <% 
   List<Painter> painters = (List<Painter>) request.getAttribute("painters");
+  String info = (String) request.getAttribute("info");
   %>
   	<jsp:include page="../../components/navigationBarGalery.jsp"></jsp:include>   
   	
@@ -34,7 +35,7 @@
 		<div class="form-group col-sm-5 row m-5">
 			<label for="painter" class="col-sm-4 col-form-label mt-3">Select Painter: </label>
 			<div class="col-sm-8 mt-3" >
-				<select class="form-control" id="painter" name="painterId">
+				<select class="form-control <%if(info != null && info.equals("Painter not exist")){out.print("is-invalid");} %>" id="painter" name="painterId">
 				<%for(Painter painter : painters) { %>
 					<option value=<%out.print("\"" + painter.getId() + "\""); %>><%out.print(painter.getFullName()); %></option>
 				<%} %>
@@ -43,12 +44,12 @@
 			<input class="btn btn-primary mt-3 ml-2 px-4 py-2" type="submit" value="Show" />
 			</div>
 		</form>
-	</div>
-	<%String info = (String) request.getAttribute("info");
+	<%
 	if(info != null){
 	%>
-	<p class="container m-2 text-danger"><% out.print(info);%></p>
+	<p class="container m-2 text-danger"><b><% out.print(info);%></b></p>
 	<%} %>
+	</div>
 
   </body>
 </html>

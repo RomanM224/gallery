@@ -19,7 +19,7 @@
     
   </head>
   <spring:url value="/resources/img/galery_background.jpg" var="galery_background" />
-  <body class=".bg-image-galery" style="background-image: url('${galery_background}');">
+  <body class="bg-image-galery" style="background-image: url('${galery_background}');">
   
   	<jsp:include page="../components/navigationBarGalery.jsp"></jsp:include>   
   	
